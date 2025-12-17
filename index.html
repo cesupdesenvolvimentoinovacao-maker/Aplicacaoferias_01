@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Registro no SharePoint</title>
+</head>
+<body>
+ 
+    <div class="card">
+        <h2>Nova Solicitação</h2>
+        <form id="spForm">
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" required placeholder="">
+            </div>
+ 
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" rows="3" required placeholder="Detalhes do problema..."></textarea>
+            </div>
+ 
+            <div class="form-group">
+                <label for="prioridade">Prioridade</label>
+                <select id="prioridade">
+                    <option value="Baixa">Baixa</option>
+                    <option value="Média">Média</option>
+                    <option value="Alta">Alta</option>
+                </select>
+            </div>
+ 
+            <button type="submit" id="btnEnviar">Enviar para SharePoint</button>
+            <div id="status"></div>
+        </form>
+    </div>
+ 
+    <script>
+        // JAVASCRIPT
+        
+        // *** IMPORTANTE: COLE SUA URL AQUI ***
+        const FLOW_URL = '';
+ 
+        document.getElementById('spForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Impede o recarregamento da página
+ 
+            const btn = document.getElementById('btnEnviar');
+            const statusDiv = document.getElementById('status');
+            
+            // Pega os valores
+            const data = {
+                titulo: document.getElementById('titulo').value,
+                descricao: document.getElementById('descricao').value,
+                prioridade: document.getElementById('prioridade').value
+            };
+ 
+            // UI Feedback (Carregando)
+            btn.disabled = true;
+            btn.innerText = 'Enviando...';
+            statusDiv.innerText = '';
+            statusDiv.style.color = '#333';
+ 
+            try {
+                // Envia para o Power Automate
+                const response = await fetch(FLOW_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+ 
+                if (response.ok) {
+                    statusDiv.innerText = 'Sucesso! Item registrado no SharePoint.';
+                    statusDiv.style.color = 'green';
+                    document.getElementById('spForm').reset(); // Limpa o form
+                } else {
+                    throw new Error('Erro na resposta do servidor');
+                }
+ 
+            } catch (error) {
+                console.error(error);
+                statusDiv.innerText = 'Erro ao enviar. Verifique o console.';
+                statusDiv.style.color = 'red';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Enviar para SharePoint';
+            }
+        });
+    </script>
+ 
+</body>
+</html>
