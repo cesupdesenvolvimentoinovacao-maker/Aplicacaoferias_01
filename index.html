@@ -3,91 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Gestão de Férias - CONTERC</title>
     <link rel="stylesheet" href="style.css">
-    <title>Registro no SharePoint</title>
 </head>
 <body>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">BNB</div>
+            <div class="title-section">
+                <div class="painel-text">SISTEMA</div>
+                <div class="gestao-ferias">GESTÃO DE FÉRIAS - CONTERC</div>
+            </div>
+        </div>
+        <div class="user-icon">👤</div>
+    </header>
  
-    <div class="card">
-        <h2>Nova Solicitação</h2>
-        <form id="spForm">
-            <div class="form-group">
-                <label for="titulo">Título</label>
-                <input type="text" id="titulo" required placeholder="">
+    <div class="container">
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Centro de Custo:</label>
+                    <select class="filter-select" id="centroFilter"><option value="">Todos</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Função</label>
+                    <select class="filter-select" id="funcaoFilter"><option value="">Todos</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Ano</label>
+                    <select class="filter-select" id="anoFilter">
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Mês Inicial</label>
+                    <select class="filter-select" id="mesFilter"><option value="">Todos</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">É Gestor?</label>
+                    <select class="filter-select" id="gestorFilter">
+                        <option value="">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Funcionário</label>
+                    <select class="filter-select" id="funcionarioFilter"><option value="">Todos</option></select>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="stats-section">
+            <div class="colaboradores-card">
+                <div class="colaboradores-label">Colaboradores Listados</div>
+                <div class="colaboradores-number" id="totalColaboradores">0</div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Distribuição de Férias por Mês</div>
+                <div class="chart-bars" id="chartBars"></div>
+            </div>
+        </div>
+ 
+        <div class="tabs" >
+            <div class="tab active" data-tab="programadas">Programadas</div>
+            <div class="tab" data-tab="realizadas">Realizadas</div>
+        </div>
+ 
+        <div class="gantt-section">
+            <div class="gantt-header-controls">
+                <h3>Detalhamento da Equipe</h3>
+                <button class="expand-btn" id="toggleAllBtn">▼ Expandir Tudo</button>
             </div>
  
-            <div class="form-group">
-                <label for="descricao">Descrição</label>
-                <textarea id="descricao" rows="3" required placeholder="Detalhes do problema..."></textarea>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color bnb-ferias"></div> <span>Férias</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color bnb-folga"></div> <span>Folga Comum</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color bnb-eleitoral"></div> <span>Folga Eleitoral</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color bnb-abonada"></div> <span>Ausência Abonada</span>
+                </div>
             </div>
  
-            <div class="form-group">
-                <label for="prioridade">Prioridade</label>
-                <select id="prioridade">
-                    <option value="Baixa">Baixa</option>
-                    <option value="Média">Média</option>
-                    <option value="Alta">Alta</option>
-                </select>
+            <div class="timeline-container">
+                <div class="timeline-header">
+                    <div class="name-column">Colaborador</div>
+                    <div class="months-grid">
+                        <div class="month-header">JAN</div><div class="month-header">FEV</div>
+                        <div class="month-header">MAR</div><div class="month-header">ABR</div>
+                        <div class="month-header">MAI</div><div class="month-header">JUN</div>
+                        <div class="month-header">JUL</div><div class="month-header">AGO</div>
+                        <div class="month-header">SET</div><div class="month-header">OUT</div>
+                        <div class="month-header">NOV</div><div class="month-header">DEZ</div>
+                    </div>
+                </div>
+                <div id="timelineContent"></div>
             </div>
- 
-            <button type="submit" id="btnEnviar">Enviar para SharePoint</button>
-            <div id="status"></div>
-        </form>
+        </div>
     </div>
- 
-    <script>
-        // JAVASCRIPT
-        
-        // *** IMPORTANTE: COLE SUA URL AQUI ***
-        const FLOW_URL = '';
- 
-        document.getElementById('spForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Impede o recarregamento da página
- 
-            const btn = document.getElementById('btnEnviar');
-            const statusDiv = document.getElementById('status');
-            
-            // Pega os valores
-            const data = {
-                titulo: document.getElementById('titulo').value,
-                descricao: document.getElementById('descricao').value,
-                prioridade: document.getElementById('prioridade').value
-            };
- 
-            // UI Feedback (Carregando)
-            btn.disabled = true;
-            btn.innerText = 'Enviando...';
-            statusDiv.innerText = '';
-            statusDiv.style.color = '#333';
- 
-            try {
-                // Envia para o Power Automate
-                const response = await fetch(FLOW_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
- 
-                if (response.ok) {
-                    statusDiv.innerText = 'Sucesso! Item registrado no SharePoint.';
-                    statusDiv.style.color = 'green';
-                    document.getElementById('spForm').reset(); // Limpa o form
-                } else {
-                    throw new Error('Erro na resposta do servidor');
-                }
- 
-            } catch (error) {
-                console.error(error);
-                statusDiv.innerText = 'Erro ao enviar. Verifique o console.';
-                statusDiv.style.color = 'red';
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Enviar para SharePoint';
-            }
-        });
-    </script>
- 
+    
+    <div class="tooltip" id="tooltip"></div>
+    <script src="script.js"></script>
 </body>
 </html>
