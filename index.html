@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Gestão de Férias - CONTERC</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Painel - Gestão de Férias</title>
+<link rel="stylesheet" href="./src/styles/styles.css" />
 </head>
 <body>
     <header class="header">
-        <div class="header-left">
-            <div class="logo">BNB</div>
-            <div class="title-section">
-                <div class="painel-text">SISTEMA</div>
-                <div class="gestao-ferias">GESTÃO DE FÉRIAS - CONTERC</div>
-            </div>
+    <div class="header-left">
+        <div class="logo">🏦</div>
+        <div class="title-section">
+        <div class="painel-text">PAINEL</div>
+        <div class="gestao-ferias">GESTÃO DE FÉRIAS</div>
         </div>
-        <div class="user-icon">👤</div>
+    </div>
     </header>
- 
+
     <div class="container">
         <div class="filters-section">
             <div class="filters-grid">
                 <div class="filter-group">
                     <label class="filter-label">Centro de Custo:</label>
-                    <select class="filter-select" id="centroFilter"><option value="">Todos</option></select>
+                    <select class="filter-select" id="centroFilter">
+                        <option value="">Todos</option>
+                    </select>
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">Função</label>
-                    <select class="filter-select" id="funcaoFilter"><option value="">Todos</option></select>
+                    <select class="filter-select" id="funcaoFilter">
+                        <option value="">Todos</option>
+                    </select>
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">Ano</label>
@@ -37,11 +40,13 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">Mês Inicial</label>
-                    <select class="filter-select" id="mesFilter"><option value="">Todos</option></select>
+                    <label class="filter-label">Mês Inicial das Férias</label>
+                    <select class="filter-select" id="mesFilter">
+                        <option value="">Todos</option>
+                    </select>
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">É Gestor?</label>
+                    <label class="filter-label">Funcionário Gestor</label>
                     <select class="filter-select" id="gestorFilter">
                         <option value="">Não</option>
                         <option value="sim">Sim</option>
@@ -49,66 +54,75 @@
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">Funcionário</label>
-                    <select class="filter-select" id="funcionarioFilter"><option value="">Todos</option></select>
+                    <select class="filter-select" id="funcionarioFilter">
+                        <option value="">Todos</option>
+                    </select>
                 </div>
             </div>
         </div>
- 
+
         <div class="stats-section">
             <div class="colaboradores-card">
-                <div class="colaboradores-label">Colaboradores Listados</div>
+                <div class="colaboradores-label">Colaboradores Ativos</div>
                 <div class="colaboradores-number" id="totalColaboradores">0</div>
             </div>
             <div class="chart-card">
-                <div class="chart-title">Distribuição de Férias por Mês</div>
-                <div class="chart-bars" id="chartBars"></div>
+                <div class="chart-title">Qtd. de Funcionários de Férias/Mês</div>
+                <div class="chart-line" id="chartLine"></div>
             </div>
         </div>
- 
-        <div class="tabs" >
+
+        <div class="tabs">
             <div class="tab active" data-tab="programadas">Programadas</div>
             <div class="tab" data-tab="realizadas">Realizadas</div>
         </div>
- 
+
         <div class="gantt-section">
             <div class="gantt-header-controls">
-                <h3>Detalhamento da Equipe</h3>
+                <h3 style="color: #8B1538;">Detalhamento Férias</h3>
                 <button class="expand-btn" id="toggleAllBtn">▼ Expandir Tudo</button>
+
             </div>
- 
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color bnb-ferias"></div> <span>Férias</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color bnb-folga"></div> <span>Folga Comum</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color bnb-eleitoral"></div> <span>Folga Eleitoral</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color bnb-abonada"></div> <span>Ausência Abonada</span>
-                </div>
-            </div>
- 
             <div class="timeline-container">
                 <div class="timeline-header">
-                    <div class="name-column">Colaborador</div>
+                    <div class="name-column"></div>
                     <div class="months-grid">
-                        <div class="month-header">JAN</div><div class="month-header">FEV</div>
-                        <div class="month-header">MAR</div><div class="month-header">ABR</div>
-                        <div class="month-header">MAI</div><div class="month-header">JUN</div>
-                        <div class="month-header">JUL</div><div class="month-header">AGO</div>
-                        <div class="month-header">SET</div><div class="month-header">OUT</div>
-                        <div class="month-header">NOV</div><div class="month-header">DEZ</div>
+                        <div class="month-header">janeiro</div>
+                        <div class="month-header">fevereiro</div>
+                        <div class="month-header">março</div>
+                        <div class="month-header">abril</div>
+                        <div class="month-header">maio</div>
+                        <div class="month-header">junho</div>
+                        <div class="month-header">julho</div>
+                        <div class="month-header">agosto</div>
+                        <div class="month-header">setembro</div>
+                        <div class="month-header">outubro</div>
+                        <div class="month-header">novembro</div>
+                        <div class="month-header">dezembro</div>
                     </div>
                 </div>
                 <div id="timelineContent"></div>
             </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color ferias" style="background: linear-gradient(135deg, #D32F2F 0%, #C62828 100%);"></div>
+                    <span>Férias</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color folga" style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);"></div>
+                    <span>Folga Eleitoral / Folga</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color ausencia" style="background: linear-gradient(135deg, #5E35B1 0%, #4527A0 100%);"></div>
+                    <span>Ausência Abonada</span>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <div class="tooltip" id="tooltip"></div>
-    <script src="script.js"></script>
+
+    <script type="module" src="./src/app.js"></script>
+
 </body>
 </html>
